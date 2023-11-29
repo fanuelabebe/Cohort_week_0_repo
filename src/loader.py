@@ -107,7 +107,7 @@ class SlackDataLoader:
 
         # specify path to get json files
         combined = []
-        print(os.path.join(self.path,f"{path_channel}/*.json"))
+        # print(os.path.join(self.path,f"{path_channel}/*.json"))
         for json_file in glob.glob(os.path.join(self.path,f"{path_channel}/*.json")):
             # print(json_file)
             with open(json_file, 'r', encoding="utf8") as slack_data:
