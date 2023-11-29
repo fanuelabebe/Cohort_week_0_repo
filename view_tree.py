@@ -41,6 +41,7 @@ def tree(dir_path: Path, level: int=-1, limit_to_directories: bool=False,
     if next(iterator, None):
         print(f'... length_limit, {length_limit}, reached, counted:')
     print(f'\n{directories} directories' + (f', {files} files' if files else ''))
+    return iterator
 
 p = sys.argv[1] if len(sys.argv) > 1 else '.'
 pp = sys.argv[2] if len(sys.argv) > 2 else ''
