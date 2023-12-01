@@ -27,14 +27,22 @@ if upload_file:
     st.header('Data Header')
     st.write(df.head())
 
-    st.header('Data Statistics')    
-    st.write(df.describe())  
-
+    # st.header('Data Statistics')    
+    # st.write(df.describe())  
+    cols = st.columns(2)
+ 
     # df = df[:3]
-    fig, ax = plt.subplots(1, 1)
+    fig, ax = plt.subplots(figsize=(15, 7.5))
     ax.bar(df['sender_name'][:10],df['sender_name'].value_counts()[:10])
-    ax.set_xlabel('Name')
-    ax.set_ylabel('Members')
-    
+    ax.set_xlabel('Sender Name')
+    ax.set_ylabel('Frequency')
+    ax.set_title(f'Top 10 Message Senders in #Random channels', size=15, fontweight='bold')
 
-    st.pyplot(fig)
+    fig1, ax1 = plt.subplots(figsize=(15, 7.5))
+    ax1.bar(df['sender_name'][:10],df['sender_name'].value_counts()[-10:])
+    ax1.set_xlabel('Sender Name')
+    ax1.set_ylabel('Frequency')
+    ax1.set_title(f'Bottom 10 Message Senders in #Random channels', size=15, fontweight='bold')
+    
+    cols[0].pyplot(fig)
+    cols[1].pyplot(fig1)
