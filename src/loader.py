@@ -47,7 +47,19 @@ class SlackDataLoader:
             users = json.load(f)
 
         return users
-    
+    def get_users_df(self,users):
+        id, name, real_name, is_admin = [], [], [], []
+        for user in users:
+            id.append(user['id'])
+            name.append(user['name'])
+            real_name.append(user['real_name'])
+            if 'is_admin' in user: is_admin.append(user['is_admin']) 
+            else:    is_admin.append(False)
+        data = zip(id, name, real_name, is_admin)
+        columns = ['id', 'name', 'real_name', 'is_admin']
+        df = pd.DataFrame(data=data, columns=columns)
+        return df
+
     def get_channels(self):
         '''
         write a function to get all the channels from the json file
@@ -62,7 +74,14 @@ class SlackDataLoader:
         write a function to get all the messages from a channel
         
         '''
-
+        combined = []
+        # print(os.path.join(self.path,f"{path_channel}/*.json"))
+        for json_file in glob.glob(os.path.join(self.path,f"{channel_name}/*.json")):
+            # print(json_file)
+            with open(json_file, 'r', encoding="utf8") as slack_data:
+                message_load = json.load(slack_data)
+                combined.append(message_load)
+        return combined
     # 
     def get_user_map(self):
         '''
@@ -167,20 +186,23 @@ class SlackDataLoader:
         """get reactions"""
         dfall_reaction = pd.DataFrame()
         combined = []
-        for json_file in glob.glob(f"{self.path}*.json"):
-            with open(json_file, 'r') as slack_data:
-                combined.append(slack_data)
-
+        for json_file in glob.glob(os.path.join(self.path,f"{channel}/*.json")):
+            # print(json_file)
+            with open(json_file, 'r', encoding="utf8") as slack_data:
+                slack_load = json.load(slack_data)
+                combined.append(slack_load)
+        # print(combined)
         reaction_name, reaction_count, reaction_users, msg, user_id = [], [], [], [], []
 
         for k in combined:
-            slack_data = json.load(open(k.name, 'r', encoding="utf-8"))
+            # slack_data = json.load(open(k.name, 'r', encoding="utf-8"))
             
-            for i_count, i in enumerate(slack_data):
+            for i_count, i in enumerate(k):
                 if 'reactions' in i.keys():
                     for j in range(len(i['reactions'])):
                         msg.append(i['text'])
-                        user_id.append(i['user'])
+                        if 'user' in i: user_id.append(i['user'])
+                        else:    user_id.append(0)
                         reaction_name.append(i['reactions'][j]['name'])
                         reaction_count.append(i['reactions'][j]['count'])
                         reaction_users.append(",".join(i['reactions'][j]['users']))
