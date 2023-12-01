@@ -1,16 +1,18 @@
--- Create a table called 'users'
+-- -- Create a table called 'users'
 CREATE TABLE users (
-    user_id SERIAL PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL,
+    id VARCHAR(255) PRIMARY KEY,
+    user_name TEXT,
+    real_name TEXT,
+    is_admin BOOLEAN,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create a table called 'posts'
-CREATE TABLE posts (
-    post_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id),
-    title VARCHAR(255) NOT NULL,
-    content TEXT,
+-- Create a table called 'reactions'
+CREATE TABLE reactions (
+    reaction_id SERIAL PRIMARY KEY,
+    reaction_count INTEGER NOT NULL,
+    reaction_users_count VARCHAR(255) NOT NULL,  
+    user_id VARCHAR(255) REFERENCES users(id),
+    channel TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
