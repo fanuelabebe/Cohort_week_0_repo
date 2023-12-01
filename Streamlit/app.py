@@ -12,9 +12,10 @@ import json
 
 st.set_page_config(page_title='Stream lit test',page_icon=':tada:',layout='wide')
 with st.container():
-    st.subheader('Sub header')
-    st.title('title')
-    st.write('checking what i am supposed to write')
+    st.subheader('10 Academy')
+    st.title('Cohor Week O Streamlit Assignment')
+    st.write('This is a demo for creating dashboard using streamlit and it shows a file selecter which up on selection it will analyze\
+             JSON file and create a dashboard of the dataframe')
 
 upload_file = st.file_uploader("Upload your file")
 
